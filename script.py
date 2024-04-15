@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import requests
 
 
-def main():
+def main() -> None:
     r = requests.Session()
     while True:
         try:
@@ -28,7 +28,7 @@ def main():
     }
     for asset in release.assets:
         result_obj[asset.name] = asset.download_count
-    with open(f"{date_str}--{time_str}.json", "w") as filep:
+    with open(f"{date_str}--{time_str}.json", "w", encoding="utf-8") as filep:
         json.dump(result_obj, filep)
 
 
