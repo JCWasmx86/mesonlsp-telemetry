@@ -1,0 +1,20 @@
+name: Update JSON hourly
+permissions:
+  contents: write
+on:
+  schedule:
+    - cron:  '0 * * * *'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Fetch JSON data
+        run: |
+          python script.py
+          git config --global user.name 'JCWasmx86[GHA]'
+          git config --global user.email 'JCWasmx86@t-online.de'
+          git add *.json
+          git commit -am "Automated report"
+          git push
