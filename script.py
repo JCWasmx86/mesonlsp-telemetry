@@ -18,6 +18,11 @@ def main() -> None:
             continue
         break
     data_obj = json.loads(resp.text, object_hook=lambda d: SimpleNamespace(**d))
+    meta = []
+    idx = 1
+    while data_obj[idx - 1].tag_name != "v4.1.8":
+        meta.append(json.loads(json.dumps(data_obj[idx], default=lambda s: vars(s))))
+        idx += 1
     release = data_obj[0]
     date_str = datetime.today().strftime("%Y-%m-%d")
     time_str = datetime.today().time().hour
@@ -25,6 +30,7 @@ def main() -> None:
         "date": date_str,
         "hour": time_str,
         "version": release.tag_name,
+        "more": meta,
     }
     for asset in release.assets:
         result_obj[asset.name] = asset.download_count
